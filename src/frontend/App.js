@@ -1,18 +1,18 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import welcomeScreen from "../frontend/screens/welcomeScreen";
-import loginScreen from "../frontend/screens/loginScreen";
-import registerScreen from "../frontend/screens/registerScreen";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import WelcomeScreen from "./screens/WelcomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const App = () => {
   return (
     <Router>
       <div className="app">
-        <Switch>
-          <Route exact path="/" component={welcomeScreen} />
-          <Route path="/login" component={loginScreen} />
-          <Route path="/register" component={registerScreen} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<WelcomeScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+        </Routes>
       </div>
     </Router>
   );

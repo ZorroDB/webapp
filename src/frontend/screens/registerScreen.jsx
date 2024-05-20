@@ -1,21 +1,12 @@
-import React from "react";
-import { Link } from "";
+import React from 'react';
 
-const WelcomePage = () => {
+const RegisterScreen = () => {
   return (
-    <div className="welcome-page">
-      <h1>Welcome to Our Web Application!</h1>
-      <p>Please select an option:</p>
-      <div className="options">
-        <Link to="/login" className="option">
-          Log In
-        </Link>
-        <Link to="/register" className="option">
-          Register
-        </Link>
-      </div>
+    <div>
+      <h1>Register</h1>
+      {/* Add your registration form here */}
     </div>
   );
 };
 
-export default WelcomePage;
+export default RegisterScreen;
