@@ -1,0 +1,78 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.header h1{
+    margin: 0;
+    font-size: 25px;
+}
+.header span{
+    font-size: 14px;
+    color: rgb(161, 161, 161);
+}
+.header{
+    margin-bottom: 30px;
+}
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+  }
+  
+  .login-form {
+    background: #ffffff;
+    width: 100%;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-container {
+    margin-bottom: 15px;
+  }
+  
+  .input-container label,
+  .input-container input {
+    display: block;
+    width: 80%;
+  }
+  .input-container label{
+    font-weight: 600;
+  }
+  
+  .input-container input {
+    padding: 10px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+    margin-top: 5px; /* Add some space between the label and the input */
+  }
+  
+  .button-container input {
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: .1s ease-in;
+  }
+  
+  .button-container input:hover {
+    background-color: #704bf5;
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+  }
+#forgot_pwd{
+    font-size: 10px;
+    text-align: right;
+    width: 100%;
+    color: rgb(193, 193, 193);
+}
