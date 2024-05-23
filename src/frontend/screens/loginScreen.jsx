@@ -79,6 +79,7 @@ const LoginScreen = () => {
               <input
                 type="text"
                 name="uname"
+                placeholder="Please enter your email address..."
                 value={formData.uname}
                 onChange={handleInputChange}
                 required
@@ -90,6 +91,7 @@ const LoginScreen = () => {
               <input
                 type="password"
                 name="pass"
+                placeholder="Please enter your password..."
                 value={formData.pass}
                 onChange={handleInputChange}
                 required

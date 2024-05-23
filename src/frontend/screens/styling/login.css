@@ -107,6 +107,7 @@ body {
 }
 .input-container input::placeholder {
   color: rgba(178, 178, 178, 0.685) !important;
+  font-size: 12px;
 }
 #sign-in {
   color: grey;
