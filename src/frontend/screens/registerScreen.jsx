@@ -1,10 +1,82 @@
-import React from 'react';
+import React from "react";
+import "./styling/login.css";
+import { Link } from "react-router-dom";
 
 const RegisterScreen = () => {
   return (
-    <div>
-      <h1>Register</h1>
-      {/* Add your registration form here */}
+    <div className="register-page">
+      <div className="header">
+        <h1>Register your account</h1>
+        <span>Create an account to manage your work hours and more.</span>
+      </div>
+      <div className="register-form">
+        <form>
+          <div className="input-container">
+            <label>Full name </label>
+            <input
+              type="text"
+              name="uname"
+              required
+              placeholder="Enter your full name"
+            />
+          </div>
+          <div className="input-container">
+            <label>Email </label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="Ex. johndoe@gmail.com"
+            />
+          </div>
+          <div className="input-container">
+            <label>Password </label>
+            <input
+              type="password"
+              name="pass"
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+          <div className="input-container">
+            <label>Confirm Password </label>
+            <input
+              type="password"
+              name="pass"
+              required
+              placeholder="Confirm your password"
+            />
+          </div>
+          <div className="input-container">
+            <label>Role:</label>
+            <select name="roles" size={2} required>
+              <option value={"employee"} selected="selected">
+                Employee
+              </option>
+              <option value={"employer"}>Employer</option>
+            </select>
+          </div>
+          <div className="input-container">
+            <label>Teamcode </label>
+            <input
+              type="num"
+              name="teamcode"
+              required
+              placeholder="Ex. 019393"
+              maxLength={6}
+            />
+          </div>
+          <div className="button-container sign-up-btn">
+            <input type="submit" value="Sign Up" />
+          </div>
+          <p id="sign-in">
+            Already have an account?
+            <Link to={"/login"} className="forgotPwdClass">
+              <span id="sign-in-link"> Sign In</span>
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
