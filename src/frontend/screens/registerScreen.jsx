@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./styling/login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../backend/services/api";
 
 const RegisterScreen = () => {
@@ -8,26 +8,29 @@ const RegisterScreen = () => {
     fullName: "",
     email: "",
     password: "",
-    role: "employee",
+    role: "",
     teamCode: "",
   });
 
   const [error, setError] = useState("");
-  const history = History();
+  const history = useNavigate();
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await register(formData);
-      alert("User registered successfully");
-      history.push("/login"); // Redirect to login after successful registration
-    } catch (error) {
-      setError(error.response.data.error);
+      const res = await axios.post("http://localhost:4000/register", formData);
+      setSuccess(true);
+      setError(null);
+    } catch (err) {
+      setError(err.response.data.message);
+      setSuccess(false);
     }
   };
 
@@ -83,9 +86,7 @@ const RegisterScreen = () => {
           <div className="input-container">
             <label>Role:</label>
             <select name="roles" size={2} required onChange={handleInputChange}>
-              <option value={"employee"} selected="selected">
-                Employee
-              </option>
+              <option value={"employee"}>Employee</option>
               <option value={"employer"}>Employer</option>
             </select>
           </div>
