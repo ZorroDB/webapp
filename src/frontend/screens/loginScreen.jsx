@@ -1,29 +1,30 @@
 import React, { useState } from "react";
-import './styling/login.css'
+import "./styling/login.css";
+import { Link } from "react-router-dom";
 
 const LoginScreen = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     uname: "",
-    pass: ""
+    pass: "",
   });
 
   // Mock login validation
   const database = [
     {
       username: "user1",
-      password: "pass1"
+      password: "pass1",
     },
     {
       username: "user2",
-      password: "pass2"
-    }
+      password: "pass2",
+    },
   ];
 
   const errors = {
     uname: "invalid username",
-    pass: "invalid password"
+    pass: "invalid password",
   };
 
   const handleSubmit = (event) => {
@@ -52,7 +53,7 @@ const LoginScreen = () => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -65,8 +66,8 @@ const LoginScreen = () => {
   return (
     <div className="login-page">
       <div className="header">
-      <h1>Log In</h1>
-      <span>Enter your email and password to log in to our dashboard</span>
+        <h1>Log In</h1>
+        <span>Enter your email and password to log in to our dashboard</span>
       </div>
       <div className="login-form">
         {isSubmitted ? (
@@ -94,7 +95,9 @@ const LoginScreen = () => {
                 required
               />
               {renderErrorMessage("pass")}
-              <span id="forgot_pwd">Forgot password?</span>
+              <Link to={"/forgot"} className="forgotPwdClass">
+                <span id="forgot_pwd">Forgot password?</span>
+              </Link>
             </div>
             <div className="button-container">
               <input type="submit" value="Log In" />
