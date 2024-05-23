@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./styling/login.css";
 import { Link } from "react-router-dom";
+import { register } from "../../backend/services/api";
 
 const RegisterScreen = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ const RegisterScreen = () => {
   });
 
   const [error, setError] = useState("");
-  const history = useHistory();
+  const history = History();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
