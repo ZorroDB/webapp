@@ -99,8 +99,15 @@ const LoginScreen = () => {
                 <span id="forgot_pwd">Forgot password?</span>
               </Link>
             </div>
-            <div className="button-container">
-              <input type="submit" value="Log In" />
+            <div className="btn-container">
+              <div className="button-container">
+                <input type="submit" value="Log In" />
+              </div>
+              <div className="button-container">
+                <Link to={"/"} className="forgotPwdClass">
+                  <input type="button" value="Return" />
+                </Link>
+              </div>
             </div>
           </form>
         )}

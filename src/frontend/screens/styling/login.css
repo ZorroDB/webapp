@@ -36,7 +36,7 @@ body {
 .input-container label,
 .input-container input {
   display: block;
-  width: 80%;
+  width: 95%;
 }
 .input-container label {
   font-weight: 600;
@@ -83,4 +83,9 @@ body {
 }
 .forgotPwdClass {
   text-decoration: none;
+}
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
