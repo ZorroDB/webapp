@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-const User = require("./models/User");
+const User = require("./models/Users");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
