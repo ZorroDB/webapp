@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-const User = require("./models/User"); // Adjust the path if your User model is in a different directory
+const User = require("./models/User");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
