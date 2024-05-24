@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:3000", // Update the base URL if necessary
+  baseURL: "http://localhost:4000/register", // Update the base URL if necessary
 });
 
 API.interceptors.request.use((config) => {

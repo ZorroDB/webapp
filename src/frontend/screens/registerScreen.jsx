@@ -15,22 +15,19 @@ const RegisterScreen = () => {
   const [error, setError] = useState("");
   const history = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/register", formData);
-      setSuccess(true);
-      setError(null);
-    } catch (err) {
-      setError(err.response.data.message);
-      setSuccess(false);
+      await register(formData);
+      alert("User registered successfully");
+      history.push("/login"); // Redirect to login after successful registration
+    } catch (error) {
+      setError(error.response.data.error);
     }
   };
 
