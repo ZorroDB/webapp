@@ -4,18 +4,18 @@ import axios from "axios";
 
 const LoginScreen = () => {
   const [formData, setFormData] = useState({
-    uname: "",
-    pass: "",
+    email: "",
+    password: "",
   });
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { uname, pass } = formData;
+    const { email, password } = formData;
 
     // Client-side validation
-    if (!uname || !pass) {
+    if (!email || !password) {
       setErrorMessages({
         name: "submission",
         message: "Please enter both email and password",
@@ -25,7 +25,7 @@ const LoginScreen = () => {
 
     // Request to backend server.
     axios
-      .post("/login", formData)
+      .post("api/auth/login", formData)
       .then((response) => {
         console.log("successfully logged in.");
         // Successfull login
@@ -67,26 +67,27 @@ const LoginScreen = () => {
             <div className="input-container">
               <label>Email </label>
               <input
+              autoFocus
                 type="text"
-                name="uname"
+                name="email"
                 placeholder="Please enter your email address..."
-                value={formData.uname}
+                value={formData.email}
                 onChange={handleInputChange}
                 required
               />
-              {renderErrorMessage("uname")}
+              {renderErrorMessage("email")}
             </div>
             <div className="input-container">
               <label>Password </label>
               <input
                 type="password"
-                name="pass"
+                name="password"
                 placeholder="Please enter your password..."
-                value={formData.pass}
+                value={formData.password}
                 onChange={handleInputChange}
                 required
               />
-              {renderErrorMessage("pass")}
+              {renderErrorMessage("password")}
               <Link to={"/forgot"} className="forgotPwdClass">
                 <span id="forgot_pwd">Forgot password?</span>
               </Link>

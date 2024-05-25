@@ -2,9 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
-const { registerUser, loginUser } = require("./routes/authController"); // Importeer de authController
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -29,7 +28,7 @@ mongoose
   
 
 // User registration route
-app.post("/register", registerUser); // Gebruik de controller hier
+app.use("/api/auth", authRoutes);
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

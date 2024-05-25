@@ -54,6 +54,7 @@ const RegisterScreen = () => {
           <div className="input-container">
             <label>Full name </label>
             <input
+            autoFocus
               type="text"
               name="fullName"
               value={formData.fullName}

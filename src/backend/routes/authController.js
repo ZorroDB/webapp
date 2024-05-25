@@ -2,6 +2,7 @@ const User = require("../models/Users");
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const authRoutes = require("./authRoutes")
 
 // Register a new user
 const registerUser = async (req, res) => {
@@ -39,6 +40,9 @@ const registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+//----------------------------------------------------------------------------------//
+
 
 // Login a user
 const router = express.Router();
