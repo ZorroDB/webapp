@@ -1,4 +1,5 @@
 const User = require("../models/Users");
+const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -40,6 +41,8 @@ const registerUser = async (req, res) => {
 };
 
 // Login a user
+const router = express.Router();
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -59,13 +62,13 @@ const loginUser = async (req, res) => {
     // Generate JWT token
     const payload = { userId: user._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "10h",
     });
 
     res.status(200).json({ token });
   } catch (err) {
     console.error("Server error:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 

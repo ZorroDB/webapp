@@ -1,52 +1,42 @@
 import React, { useState } from "react";
-import "./styling/login.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const LoginScreen = () => {
-  const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     uname: "",
     pass: "",
   });
-
-  // Mock login validation
-  const database = [
-    {
-      username: "user1",
-      password: "pass1",
-    },
-    {
-      username: "user2",
-      password: "pass2",
-    },
-  ];
-
-  const errors = {
-    uname: "invalid username",
-    pass: "invalid password",
-  };
+  const [errorMessages, setErrorMessages] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const { uname, pass } = formData;
-
-    // Find user login info
-    const userData = database.find((user) => user.username === uname);
-
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        // Valid login
-        setIsSubmitted(true);
-      }
-    } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
+  
+    // Client-side validation
+    if (!uname || !pass) {
+      setErrorMessages({
+        name: "submission",
+        message: "Please enter both email and password",
+      });
+      return;
     }
+  
+    // Request to backend server.
+    axios.post("/login", formData)
+      .then((response) => {
+        console.log("successfully logged in.");
+        // Successfull login
+        setIsSubmitted(true);
+      })
+      .catch((error) => {
+        // Error during login
+        setErrorMessages({
+          name: "submission",
+          message: "Invalid username or password",
+        });
+      });
   };
 
   const handleInputChange = (event) => {
@@ -57,7 +47,6 @@ const LoginScreen = () => {
     });
   };
 
-  // Generate JSX code for error message
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
@@ -111,6 +100,7 @@ const LoginScreen = () => {
                 </Link>
               </div>
             </div>
+            {renderErrorMessage("submission")}
           </form>
         )}
       </div>

@@ -23,11 +23,8 @@ const RegisterScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:4000/register",
-        formData
-      );
-      if (response.data.success) {
+      const response = await axios.post("http://localhost:4000/register", formData);
+      if (response.data.message === "User registered successfully") {
         setIsSubmitted(true);
       } else {
         setErrorMessages({
@@ -38,15 +35,13 @@ const RegisterScreen = () => {
     } catch (error) {
       setErrorMessages({
         name: "submission",
-        message: "Registration failed. Please try again.",
+        message: error.response?.data?.message || "Registration failed. Please try again.",
       });
     }
   };
 
   const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
-    );
+    name === errorMessages.name && <div className="error">{errorMessages.message}</div>;
 
   return (
     <div className="registration">
@@ -84,8 +79,8 @@ const RegisterScreen = () => {
             <label>Password </label>
             <input
               type="password"
-              name="pass"
-              alue={formData.password}
+              name="password"
+              value={formData.password}
               onChange={handleInputChange}
               required
               placeholder="Enter your password"
@@ -95,7 +90,7 @@ const RegisterScreen = () => {
           <div className="input-container">
             <label>Role:</label>
             <select
-              name="roles"
+              name="role"
               size={2}
               required
               onChange={handleInputChange}
@@ -109,7 +104,7 @@ const RegisterScreen = () => {
           <div className="input-container">
             <label>Teamcode </label>
             <input
-              type="num"
+              type="number"
               name="teamCode"
               value={formData.teamCode}
               onChange={handleInputChange}
