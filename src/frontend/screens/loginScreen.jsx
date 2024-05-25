@@ -13,7 +13,7 @@ const LoginScreen = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const { uname, pass } = formData;
-  
+
     // Client-side validation
     if (!uname || !pass) {
       setErrorMessages({
@@ -22,9 +22,10 @@ const LoginScreen = () => {
       });
       return;
     }
-  
+
     // Request to backend server.
-    axios.post("/login", formData)
+    axios
+      .post("/login", formData)
       .then((response) => {
         console.log("successfully logged in.");
         // Successfull login
