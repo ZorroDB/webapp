@@ -4,7 +4,12 @@ const jwt = require("jsonwebtoken");
 
 // Register a new user
 const registerUser = async (req, res) => {
-  const { name, email, password, role, teamCode } = req.body;
+  const { fullName, email, password, role, teamCode } = req.body;
+
+  // Basic validation
+  if (!fullName || !email || !password || !role) {
+    return res.status(400).json({ message: "Please enter all fields" });
+  }
 
   try {
     // Check if user already exists
@@ -13,30 +18,23 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Create a new user
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create new user
     user = new User({
-      name,
+      fullName,
       email,
-      password,
+      password: hashedPassword,
       role,
       teamCode,
     });
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-
     await user.save();
-
-    // Generate JWT token
-    const payload = { userId: user._id };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    res.status(201).json({ token });
+    res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
-    console.error(err);
+    console.error("Server error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -66,7 +64,7 @@ const loginUser = async (req, res) => {
 
     res.status(200).json({ token });
   } catch (err) {
-    console.error(err);
+    console.error("Server error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
