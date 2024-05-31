@@ -5,14 +5,14 @@ const User = require("../models/Users"); // Adjust the path as necessary
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  const { fullName, email, password, role, teamCode } = req.body;
+  const { fullName, email, password, teamCode } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: "Email already in use" });
     }
-    const user = new User({ fullName, email, password, role, teamCode });
+    const user = new User({ fullName, email, password, teamCode });
     await user.save();
 
     const token = jwt.sign({ userId: user._id }, "JWT_SECRET");

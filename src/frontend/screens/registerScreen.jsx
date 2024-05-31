@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import "./styling/login.css";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './styling/login.css';
 
 const RegisterScreen = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    role: "",
-    teamCode: "",
+    fullName: '',
+    email: '',
+    password: '',
+    teamCode: '',
   });
 
   const [errorMessages, setErrorMessages] = useState({});
@@ -23,25 +22,32 @@ const RegisterScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/register", formData);
-      if (response.data.message === "User registered successfully") {
+      const response = await axios.post(
+        'http://localhost:4000/register',
+        formData
+      );
+      if (response.data.message === 'User registered successfully') {
         setIsSubmitted(true);
       } else {
         setErrorMessages({
-          name: "submission",
+          name: 'submission',
           message: response.data.message,
         });
       }
     } catch (error) {
       setErrorMessages({
-        name: "submission",
-        message: error.response?.data?.message || "Registration failed. Please try again.",
+        name: 'submission',
+        message:
+          error.response?.data?.message ||
+          'Registration failed. Please try again.',
       });
     }
   };
 
   const renderErrorMessage = (name) =>
-    name === errorMessages.name && <div className="error">{errorMessages.message}</div>;
+    name === errorMessages.name && (
+      <div className="error">{errorMessages.message}</div>
+    );
 
   return (
     <div className="registration">
@@ -54,7 +60,7 @@ const RegisterScreen = () => {
           <div className="input-container">
             <label>Full name </label>
             <input
-            autoFocus
+              autoFocus
               type="text"
               name="fullName"
               value={formData.fullName}
@@ -62,7 +68,7 @@ const RegisterScreen = () => {
               required
               placeholder="Enter your full name"
             />
-            {renderErrorMessage("fullName")}
+            {renderErrorMessage('fullName')}
           </div>
           <div className="input-container">
             <label>Email </label>
@@ -74,7 +80,7 @@ const RegisterScreen = () => {
               required
               placeholder="Ex. johndoe@gmail.com"
             />
-            {renderErrorMessage("email")}
+            {renderErrorMessage('email')}
           </div>
           <div className="input-container">
             <label>Password </label>
@@ -86,21 +92,7 @@ const RegisterScreen = () => {
               required
               placeholder="Enter your password"
             />
-            {renderErrorMessage("password")}
-          </div>
-          <div className="input-container">
-            <label>Role:</label>
-            <select
-              name="role"
-              size={2}
-              required
-              onChange={handleInputChange}
-              value={formData.role}
-            >
-              <option value={"employee"}>Employee</option>
-              <option value={"employer"}>Employer</option>
-            </select>
-            {renderErrorMessage("role")}
+            {renderErrorMessage('password')}
           </div>
           <div className="input-container">
             <label>Teamcode </label>
@@ -113,15 +105,15 @@ const RegisterScreen = () => {
               placeholder="Ex. 019393"
               maxLength={6}
             />
-            {renderErrorMessage("teamCode")}
+            {renderErrorMessage('teamCode')}
           </div>
           <div className="button-container sign-up-btn">
             <input type="submit" value="Sign Up" />
           </div>
-          {renderErrorMessage("submission")}
+          {renderErrorMessage('submission')}
           <p id="sign-in">
             Already have an account?
-            <Link to={"/login"} className="forgotPwdClass">
+            <Link to={'/login'} className="forgotPwdClass">
               <span id="sign-in-link"> Sign In</span>
             </Link>
           </p>
