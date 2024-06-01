@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './styling/login.css';
 
 const RegisterScreen = () => {
@@ -13,6 +13,7 @@ const RegisterScreen = () => {
 
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate(); // React Router's hook for navigation
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,24 +23,56 @@ const RegisterScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
+      const registrationResponse = await axios.post(
         'http://localhost:4000/register',
         formData
       );
-      if (response.data.message === 'User registered successfully') {
-        setIsSubmitted(true);
-        setErrorMessages({});
+
+      if (
+        registrationResponse.data.message === 'User registered successfully'
+      ) {
+        // Automatically log the user in after successful registration
+        try {
+          const loginResponse = await axios.post(
+            'http://localhost:4000/login',
+            {
+              email: formData.email,
+              password: formData.password,
+            }
+          );
+
+          if (loginResponse.data.token) {
+            // Save the token (optional: depending on your use case)
+            localStorage.setItem('authToken', loginResponse.data.token);
+
+            setIsSubmitted(true);
+            setErrorMessages({});
+            navigate('/dashboard'); // Redirect to a protected route
+          } else {
+            setErrorMessages({
+              name: 'login',
+              message: 'Login failed after registration.',
+            });
+          }
+        } catch (loginError) {
+          setErrorMessages({
+            name: 'login',
+            message:
+              loginError.response?.data?.message ||
+              'Login failed after registration.',
+          });
+        }
       } else {
         setErrorMessages({
           name: 'submission',
-          message: response.data.message,
+          message: registrationResponse.data.message,
         });
       }
-    } catch (error) {
+    } catch (registrationError) {
       setErrorMessages({
         name: 'submission',
         message:
-          error.response?.data?.message ||
+          registrationError.response?.data?.message ||
           'Registration failed. Please try again.',
       });
     }
@@ -58,7 +91,7 @@ const RegisterScreen = () => {
       </div>
       <div className="register-form">
         {isSubmitted ? (
-          <div>Registration successful!</div>
+          <div>Registration and login successful! Redirecting...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <div className="input-container">
@@ -115,6 +148,7 @@ const RegisterScreen = () => {
               <input type="submit" value="Sign Up" />
             </div>
             {renderErrorMessage('submission')}
+            {renderErrorMessage('login')}
             <p id="sign-in">
               Already have an account?
               <Link to={'/login'} className="forgotPwdClass">

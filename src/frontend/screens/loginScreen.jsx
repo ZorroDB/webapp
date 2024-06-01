@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginScreen = () => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -17,25 +18,29 @@ const LoginScreen = () => {
     // Client-side validation
     if (!email || !password) {
       setErrorMessages({
-        name: "submission",
-        message: "Please enter both email and password",
+        name: 'submission',
+        message: 'Please enter both email and password',
       });
       return;
     }
 
     // Request to backend server.
     axios
-      .post("api/auth/login", formData)
+      .post('http://localhost:4000/api/auth/login', formData)
       .then((response) => {
-        console.log("successfully logged in.");
-        // Successfull login
+        console.log('successfully logged in.');
+        // Successful login
         setIsSubmitted(true);
+        // Store the token
+        localStorage.setItem('token', response.data.token);
+        // Redirect to dashboard
+        navigate('/dashboard');
       })
       .catch((error) => {
         // Error during login
         setErrorMessages({
-          name: "submission",
-          message: "Invalid username or password",
+          name: 'submission',
+          message: error.response.data.message || 'Invalid email or password',
         });
       });
   };
@@ -67,7 +72,7 @@ const LoginScreen = () => {
             <div className="input-container">
               <label>Email </label>
               <input
-              autoFocus
+                autoFocus
                 type="text"
                 name="email"
                 placeholder="Please enter your email address..."
@@ -75,7 +80,7 @@ const LoginScreen = () => {
                 onChange={handleInputChange}
                 required
               />
-              {renderErrorMessage("email")}
+              {renderErrorMessage('email')}
             </div>
             <div className="input-container">
               <label>Password </label>
@@ -87,8 +92,8 @@ const LoginScreen = () => {
                 onChange={handleInputChange}
                 required
               />
-              {renderErrorMessage("password")}
-              <Link to={"/forgot"} className="forgotPwdClass">
+              {renderErrorMessage('password')}
+              <Link to={'/forgot'} className="forgotPwdClass">
                 <span id="forgot_pwd">Forgot password?</span>
               </Link>
             </div>
@@ -97,12 +102,12 @@ const LoginScreen = () => {
                 <input type="submit" value="Log In" />
               </div>
               <div className="button-container">
-                <Link to={"/"} className="forgotPwdClass">
+                <Link to={'/'} className="forgotPwdClass">
                   <input type="button" value="Return" />
                 </Link>
               </div>
             </div>
-            {renderErrorMessage("submission")}
+            {renderErrorMessage('submission')}
           </form>
         )}
       </div>
