@@ -26,7 +26,7 @@ const LoginScreen = () => {
 
     // Request to backend server.
     axios
-      .post('http://localhost:4000/api/auth/login', formData)
+      .post('http://localhost:4000/login', formData)
       .then((response) => {
         console.log('successfully logged in.');
         // Successful login
