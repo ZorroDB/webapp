@@ -28,6 +28,7 @@ const RegisterScreen = () => {
       );
       if (response.data.message === 'User registered successfully') {
         setIsSubmitted(true);
+        setErrorMessages({});
       } else {
         setErrorMessages({
           name: 'submission',
@@ -56,70 +57,73 @@ const RegisterScreen = () => {
         <span>Create an account to manage your work hours and more.</span>
       </div>
       <div className="register-form">
-        <form onSubmit={handleSubmit}>
-          <div className="input-container">
-            <label>Full name </label>
-            <input
-              autoFocus
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              required
-              placeholder="Enter your full name"
-            />
-            {renderErrorMessage('fullName')}
-          </div>
-          <div className="input-container">
-            <label>Email </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              placeholder="Ex. johndoe@gmail.com"
-            />
-            {renderErrorMessage('email')}
-          </div>
-          <div className="input-container">
-            <label>Password </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-              placeholder="Enter your password"
-            />
-            {renderErrorMessage('password')}
-          </div>
-          <div className="input-container">
-            <label>Teamcode </label>
-            <input
-              type="number"
-              name="teamCode"
-              value={formData.teamCode}
-              onChange={handleInputChange}
-              required
-              placeholder="Ex. 019393"
-              maxLength={6}
-            />
-            {renderErrorMessage('teamCode')}
-          </div>
-          <div className="button-container sign-up-btn">
-            <input type="submit" value="Sign Up" />
-          </div>
-          {renderErrorMessage('submission')}
-          <p id="sign-in">
-            Already have an account?
-            <Link to={'/login'} className="forgotPwdClass">
-              <span id="sign-in-link"> Sign In</span>
-            </Link>
-          </p>
-        </form>
+        {isSubmitted ? (
+          <div>Registration successful!</div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="input-container">
+              <label>Full name</label>
+              <input
+                autoFocus
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your full name"
+              />
+              {renderErrorMessage('fullName')}
+            </div>
+            <div className="input-container">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                placeholder="Ex. johndoe@gmail.com"
+              />
+              {renderErrorMessage('email')}
+            </div>
+            <div className="input-container">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your password"
+              />
+              {renderErrorMessage('password')}
+            </div>
+            <div className="input-container">
+              <label>Teamcode</label>
+              <input
+                type="number"
+                name="teamCode"
+                value={formData.teamCode}
+                onChange={handleInputChange}
+                required
+                placeholder="Ex. 019393"
+                maxLength={6}
+              />
+              {renderErrorMessage('teamCode')}
+            </div>
+            <div className="button-container sign-up-btn">
+              <input type="submit" value="Sign Up" />
+            </div>
+            {renderErrorMessage('submission')}
+            <p id="sign-in">
+              Already have an account?
+              <Link to={'/login'} className="forgotPwdClass">
+                <span id="sign-in-link"> Sign In</span>
+              </Link>
+            </p>
+          </form>
+        )}
       </div>
-      {isSubmitted && <div>Registration successful!</div>}
     </div>
   );
 };
