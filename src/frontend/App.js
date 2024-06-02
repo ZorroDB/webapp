@@ -18,11 +18,7 @@ const App = () => {
           <Route path="/forgot" element={<ForgotScreen />} />
           <Route
             path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute component={Dashboard} />}
           />
         </Routes>
       </div>

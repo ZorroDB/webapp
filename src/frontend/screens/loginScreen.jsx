@@ -37,7 +37,7 @@ const LoginScreen = () => {
         navigate('/dashboard');
       })
       .catch((error) => {
-        // Error during login
+        // Error durqing login
         setErrorMessages({
           name: 'submission',
           message: error.response.data.message || 'Invalid email or password',
