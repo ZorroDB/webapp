@@ -1,0 +1,19 @@
+.timer {
+  background-color: var(--secondary-color);
+  border-radius: 50%;
+  height: 300px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timer > .time-management {
+  text-align: center;
+}
+.timer > .time-management > p {
+  font-size: 15px;
+  color: var(--primary-color);
+}
+.timer > .time-management > span {
+  font-size: 40px;
+}
