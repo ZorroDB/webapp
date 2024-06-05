@@ -19,19 +19,21 @@ const Dashboard = () => {
     }
   }
 
+  let hour = 0;
+  let minute = 0;
+  let second = 0;
+
   function stopTimer() {
     console.log('Timer stopped');
     clearInterval(timerInterval);
     timerRunning = false;
+    let minute = Math.floor(15 - (minute % 15));
+    console.log(minute);
   }
 
   function padding(numPad) {
     return numPad < 10 ? '0' + numPad : numPad.toString();
   }
-
-  let hour = 0;
-  let minute = 0;
-  let second = 0;
 
   function startTimer() {
     timerRunning = true;
@@ -45,6 +47,9 @@ const Dashboard = () => {
       if (minute === 60) {
         minute = 0;
         hour++;
+      }
+
+      if (minute === 8) {
       }
 
       // Update padded values
@@ -74,7 +79,7 @@ const Dashboard = () => {
 
         {/* Clock in timer */}
         <button className="timer" id="btn" type="button">
-          <div className="time-management" id="start_text">
+          <div className="time-management">
             <p>Click to start or stop</p>
             <div className="time-measure">
               <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
