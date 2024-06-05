@@ -1,9 +1,10 @@
 import React from 'react';
+import './scripts/calendar';
 import './styling/dashboard.css';
 
 const Dashboard = () => {
-  var timerRunning = false; // Variable to track if the timer is running
-  var timerInterval; // Variable to hold the interval ID
+  var timerRunning = false;
+  var timerInterval;
 
   function init() {
     var btn = document.getElementById('btn');
@@ -61,20 +62,28 @@ const Dashboard = () => {
   window.onload = init;
   return (
     <div className="dashboard">
-      <div>
-        <h1>Dashboard</h1>
-      </div>
-      <button className="logout">Log Out</button>
-      <button className="timer" id="btn" type="button">
-        <div className="time-management" id="start_text">
-          <p>Click to start or stop</p>
-          <div className="time-measure">
-            <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
-            <span id="time_seconds">00</span>
-          </div>
-          <p>Clock in/ out</p>
+      <div className="left-half">
+        <div>
+          <h1>Dashboard</h1>
         </div>
-      </button>
+        <div id="calendar"></div>
+      </div>
+      <div className="right-half">
+        {/* Log out button */}
+        <button className="logout">Log Out</button>
+
+        {/* Clock in timer */}
+        <button className="timer" id="btn" type="button">
+          <div className="time-management" id="start_text">
+            <p>Click to start or stop</p>
+            <div className="time-measure">
+              <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
+              <span id="time_seconds">00</span>
+            </div>
+            <p>Clock in/ out</p>
+          </div>
+        </button>
+      </div>
     </div>
   );
 };
