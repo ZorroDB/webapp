@@ -2,6 +2,28 @@ import React from 'react';
 import './styling/dashboard.css';
 
 const Dashboard = () => {
+  var timerRunning = false; // Variable to track if the timer is running
+  var timerInterval; // Variable to hold the interval ID
+
+  function init() {
+    var btn = document.getElementById('btn');
+    btn.addEventListener('click', toggleTimer, false);
+  }
+
+  function toggleTimer() {
+    if (!timerRunning) {
+      startTimer();
+    } else {
+      stopTimer();
+    }
+  }
+
+  function stopTimer() {
+    console.log('Timer stopped');
+    clearInterval(timerInterval);
+    timerRunning = false;
+  }
+
   function padding(numPad) {
     return numPad < 10 ? '0' + numPad : numPad.toString();
   }
@@ -10,8 +32,10 @@ const Dashboard = () => {
   let minute = 0;
   let second = 0;
 
-  function increment() {
-    setInterval(() => {
+  function startTimer() {
+    timerRunning = true;
+    console.log('Timer started');
+    timerInterval = setInterval(() => {
       second++;
       if (second === 60) {
         second = 0;
@@ -34,18 +58,19 @@ const Dashboard = () => {
     }, 1000);
   }
 
+  window.onload = init;
   return (
     <div className="dashboard">
       <div>
         <h1>Dashboard</h1>
       </div>
       <button className="logout">Log Out</button>
-      <button className="timer" type="button" onClick={increment()}>
-        <div className="time-management">
-          <p>Click to start</p>
+      <button className="timer" id="btn" type="button">
+        <div className="time-management" id="start_text">
+          <p>Click to start or stop</p>
           <div className="time-measure">
-            <span id="time_hour"></span>:<span id="time_minutes"></span>:
-            <span id="time_seconds"></span>
+            <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
+            <span id="time_seconds">00</span>
           </div>
           <p>Clock in/ out</p>
         </div>

@@ -6,6 +6,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 0 solid;
+}
+.timer::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2),
+    rgba(0, 0, 0, 0)
+  );
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease-out;
+  pointer-events: none;
+}
+
+.timer:hover::before {
+  transform: translate(-50%, -50%) scale(1);
 }
 .timer > .time-management {
   text-align: center;
