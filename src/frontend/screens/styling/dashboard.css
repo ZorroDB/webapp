@@ -90,7 +90,7 @@ input {
 }
 .logout:hover {
   transform: scale(1.2);
-  background-color: #837ffa;
+  background-color: #704bf5;
 }
 #btn-subText {
   font-size: 12px;
