@@ -40,32 +40,9 @@ body {
   cursor: pointer;
   transition: ease-in-out 0.4s;
 }
-.sick {
-  display: flex;
-  flex-direction: column; /* Stack children vertically */
-}
-
-.top-section {
-  display: flex;
-  align-items: center; /* Center items vertically within this container */
-  margin-bottom: 10px; /* Add some space below this section */
-}
-
-input {
-  width: 30px;
-  height: 30px;
-  border: 1px solid grey;
-  background-color: var(--secondary-color);
-  border-radius: 5px;
-  margin-left: 10px;
-}
 
 .timer:hover {
   transform: scale(1.05);
-}
-.sick {
-  display: flex;
-  align-items: center;
 }
 
 .timer > .time-measure {
@@ -99,5 +76,44 @@ input {
 #subText {
   font-size: 12px;
   color: rgb(157, 156, 156);
-  position: relative;
+  margin-top: -20px; /* Adjust space above the p element */
+}
+
+/* Inputs container */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sick,
+.break_time {
+  display: flex;
+  flex-direction: column;
+}
+.sick .top-section,
+.break_time .top-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px; /* Adjust space below this section */
+}
+
+.sick > .top-section > #input_sick {
+  margin-left: 20px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid grey;
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+#input_break {
+  background-color: var(--primary-color);
+  border: 2px solid initial;
+  border-radius: 3px;
+  height: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 27px;
 }

@@ -1,46 +1,43 @@
 import React, { useEffect } from 'react';
-import './scripts/calendar';
 import './styling/dashboard.css';
 
 const Dashboard = () => {
   useEffect(() => {
-    var btn = document.getElementById('btn');
+    const btn = document.getElementById('btn');
     btn.addEventListener('click', toggleTimer, false);
     return () => {
       btn.removeEventListener('click', toggleTimer);
     };
   }, []);
 
-  var timerRunning = false;
-  var timerInterval;
+  let timerRunning = false;
+  let timerInterval;
+  let hour = 0;
+  let minute = 0;
+  let second = 0;
 
-  function toggleTimer() {
+  const toggleTimer = () => {
     if (!timerRunning) {
       startTimer();
     } else {
       stopTimer();
     }
-  }
+  };
 
-  let hour = 0;
-  let minute = 0;
-  let second = 0;
-
-  function stopTimer() {
+  const stopTimer = () => {
     console.log('Timer stopped');
     clearInterval(timerInterval);
     timerRunning = false;
-    let minute = Math.floor(15 - (minute % 15));
+    minute = Math.floor(15 - (minute % 15));
     console.log(minute);
-  }
+  };
 
-  function padding(numPad) {
+  const padding = (numPad) => {
     return numPad < 10 ? '0' + numPad : numPad.toString();
-  }
+  };
 
-  function startTimer() {
+  const startTimer = () => {
     timerRunning = true;
-    // btn.style.backgroundColor = 'red';
     console.log('Timer started');
     timerInterval = setInterval(() => {
       second++;
@@ -52,21 +49,14 @@ const Dashboard = () => {
         minute = 0;
         hour++;
       }
-
-      if (minute === 8) {
-      }
-
-      // Update padded values
-      let padHour = padding(hour);
-      let padMinute = padding(minute);
-      let padSecond = padding(second);
-
-      // Update the HTML elements with the new time
+      const padHour = padding(hour);
+      const padMinute = padding(minute);
+      const padSecond = padding(second);
       document.getElementById('time_hour').innerHTML = padHour;
       document.getElementById('time_minutes').innerHTML = padMinute;
       document.getElementById('time_seconds').innerHTML = padSecond;
     }, 1000);
-  }
+  };
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -85,28 +75,40 @@ const Dashboard = () => {
         <div id="calendar"></div>
       </div>
       <div className="right-half">
-        {/* Log out button */}
         <button className="logout" onClick={logout}>
           Log Out
         </button>
-        <div class="sick">
-          <div class="top-section">
-            <h2>Sick or absent?</h2>
-            <input id="input_sick" type="checkbox" required></input>
+        <div className="container-right">
+          <div className="sick">
+            <div className="top-section">
+              <h2>Sick or absent:</h2>
+              <input id="input_sick" type="checkbox" required />
+            </div>
+            <p id="subText">Sick or absent? Check this box.</p>
           </div>
-          <p id="subText">Sick or absent? Check this box.</p>
+          <div className="break_time">
+            <div className="top-section">
+              <h2>Time of break:</h2>
+              <input
+                id="input_break"
+                type="number"
+                required
+                placeholder="1:00"
+              />
+            </div>
+            <p id="subText">Duration of break time.</p>
+          </div>
+          <button className="timer" id="btn" type="button">
+            <div className="time-measure">
+              <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
+              <span id="time_seconds">00</span>
+            </div>
+          </button>
+          <p id="btn-subText">
+            *Press the clock in button to start the timer and press clock out to
+            stop the timer.*
+          </p>
         </div>
-        {/* Clock in timer */}
-        <button className="timer" id="btn" type="button">
-          <div className="time-measure">
-            <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
-            <span id="time_seconds">00</span>
-          </div>
-        </button>
-        <p id="btn-subText">
-          *Press the clock in button to start the timer and press clock out to
-          stop the timer.*
-        </p>
       </div>
     </div>
   );
