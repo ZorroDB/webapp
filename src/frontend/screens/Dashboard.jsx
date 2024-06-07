@@ -22,19 +22,21 @@ const Dashboard = () => {
     }
   }
 
+  let hour = 0;
+  let minute = 0;
+  let second = 0;
+
   function stopTimer() {
     console.log('Timer stopped');
     clearInterval(timerInterval);
     timerRunning = false;
+    let minute = Math.floor(15 - (minute % 15));
+    console.log(minute);
   }
 
   function padding(numPad) {
     return numPad < 10 ? '0' + numPad : numPad.toString();
   }
-
-  let hour = 0;
-  let minute = 0;
-  let second = 0;
 
   function startTimer() {
     timerRunning = true;
@@ -49,6 +51,9 @@ const Dashboard = () => {
       if (minute === 60) {
         minute = 0;
         hour++;
+      }
+
+      if (minute === 8) {
       }
 
       // Update padded values
