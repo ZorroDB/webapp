@@ -1,3 +1,33 @@
+body {
+  overflow: hidden;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.left-half,
+.right-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.left-half {
+  background-color: #f0f0f0;
+}
+
+.right-half {
+  background-color: #e0e0e0;
+}
+
 .timer {
   background-color: var(--secondary-color);
   border-radius: 50%;
@@ -6,37 +36,68 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0 solid;
+  border: none;
+  cursor: pointer;
+  transition: ease-in-out 0.4s;
 }
-.timer::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.2),
-    rgba(0, 0, 0, 0)
-  );
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.3s ease-out;
-  pointer-events: none;
+.sick {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
 }
 
-.timer:hover::before {
-  transform: translate(-50%, -50%) scale(1);
+.top-section {
+  display: flex;
+  align-items: center; /* Center items vertically within this container */
+  margin-bottom: 10px; /* Add some space below this section */
 }
-.timer > .time-management {
-  text-align: center;
+
+input {
+  width: 30px;
+  height: 30px;
+  border: 1px solid grey;
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  margin-left: 10px;
 }
-.timer > .time-management > p {
-  font-size: 15px;
+
+.timer:hover {
+  transform: scale(1.05);
+}
+.sick {
+  display: flex;
+  align-items: center;
+}
+
+.timer > .time-measure {
+  font-size: 38px;
+  font-weight: 600;
   color: var(--primary-color);
 }
-.timer > .time-management > div {
-  font-size: 40px;
-}
 
-/* CALENDAR  */
+.logout {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border-radius: 4px;
+  transition: ease-in-out 0.4s;
+}
+.logout:hover {
+  transform: scale(1.2);
+  background-color: #837ffa;
+}
+#btn-subText {
+  font-size: 12px;
+  color: rgb(157, 156, 156);
+}
+#subText {
+  font-size: 12px;
+  color: rgb(157, 156, 156);
+  position: relative;
+}
