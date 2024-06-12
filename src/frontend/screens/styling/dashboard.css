@@ -100,20 +100,23 @@ input::-webkit-inner-spin-button {
 }
 
 .sick,
-.break_time {
+.break_time,
+.handtekening {
   display: flex;
   flex-direction: column;
   justify-content: start;
 }
 
 .sick .top-section,
-.break_time .top-section {
+.break_time .top-section,
+.handtekening .top-section {
   display: flex;
   align-items: center;
   margin-bottom: 5px; /* Adjust space below this section */
 }
 
-.sick > .top-section > #input_sick {
+.sick > .top-section > #input_sick,
+.handtekening > .top-section > #input_handtekening {
   margin-left: 20px;
   width: 30px;
   height: 30px;
@@ -134,4 +137,24 @@ input[type='number'] {
   font-size: 18px;
   font-weight: 600;
   margin-left: 27px;
+}
+#input_handtekening {
+  cursor: not-allowed;
+}
+.btn_save {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border-radius: 4px;
+  transition: transform 0.4s ease-in-out;
+}
+.btn_save:hover {
+  transform: scale(1.2);
+  background-color: #704bf5;
 }

@@ -108,6 +108,25 @@ const Dashboard = () => {
             *Press the clock in button to start the timer and press clock out to
             stop the timer.*
           </p>
+          <div className="handtekening">
+            <div className="top-section">
+              <h2>Signature:</h2>
+              <input
+                id="input_handtekening"
+                type="checkbox"
+                required
+                disabled
+              />
+            </div>
+            <p id="subText">
+              If clock-in is accepted, the manager will check this box.
+            </p>
+          </div>
+          <div className="save_button">
+            <button className="btn_save" id="btn_save">
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </div>
