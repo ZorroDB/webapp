@@ -34,6 +34,9 @@ body {
   justify-content: center;
   width: 70%;
 }
+.container {
+  display: flex;
+}
 .container-right > *:not(.timer, #btn-subText) {
   align-self: flex-start; /* Align other items to the start horizontally */
 }

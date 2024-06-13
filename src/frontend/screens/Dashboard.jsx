@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Calendar from 'react-calendar';
 import './styling/dashboard.css';
 
 const Dashboard = () => {
+  const [isSickOrAbsent, setIsSickOrAbsent] = useState(false);
+  const [date, setDate] = useState(new Date());
+
   useEffect(() => {
     const btn = document.getElementById('btn');
     btn.addEventListener('click', toggleTimer, false);
@@ -28,8 +32,23 @@ const Dashboard = () => {
     console.log('Timer stopped');
     clearInterval(timerInterval);
     timerRunning = false;
-    minute = Math.floor(15 - (minute % 15));
-    console.log(minute);
+
+    if (minute % 15 !== 0) {
+      let remainder = minute % 15;
+      let increment = 15 - remainder;
+      minute += increment;
+      if (minute >= 60) {
+        minute = 0;
+        hour++;
+      }
+    }
+
+    const padHour = padding(hour);
+    const padMinute = padding(minute);
+    const padSecond = padding(second);
+    document.getElementById('time_hour').innerHTML = padHour;
+    document.getElementById('time_minutes').innerHTML = padMinute;
+    document.getElementById('time_seconds').innerHTML = padSecond;
   };
 
   const padding = (numPad) => {
@@ -65,14 +84,20 @@ const Dashboard = () => {
     return 'You have been logged out.';
   };
 
+  const handleSickOrAbsentChange = (event) => {
+    setIsSickOrAbsent(event.target.checked);
+  };
+
   return (
-    <div className="dashboard">
+    <div className="container">
       <div className="left-half">
         <div>
           <h1>Dashboard</h1>
           <h2>Welcome, name here</h2>
         </div>
-        <div id="calendar"></div>
+        <div id="calendar">
+          <Calendar onChange={setDate} value={date} />
+        </div>
       </div>
       <div className="right-half">
         <button className="logout" onClick={logout}>
@@ -82,7 +107,12 @@ const Dashboard = () => {
           <div className="sick">
             <div className="top-section">
               <h2>Sick or absent:</h2>
-              <input id="input_sick" type="checkbox" required />
+              <input
+                id="input_sick"
+                type="checkbox"
+                onChange={handleSickOrAbsentChange}
+                required
+              />
             </div>
             <p id="subText">Sick or absent? Check this box.</p>
           </div>
@@ -94,11 +124,17 @@ const Dashboard = () => {
                 type="number"
                 required
                 placeholder="1:00"
+                disabled={isSickOrAbsent}
               />
             </div>
             <p id="subText">Duration of break time.</p>
           </div>
-          <button className="timer" id="btn" type="button">
+          <button
+            className="timer"
+            id="btn"
+            type="button"
+            disabled={isSickOrAbsent}
+          >
             <div className="time-measure">
               <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
               <span id="time_seconds">00</span>
@@ -123,7 +159,11 @@ const Dashboard = () => {
             </p>
           </div>
           <div className="save_button">
-            <button className="btn_save" id="btn_save">
+            <button
+              className="btn_save"
+              id="btn_save"
+              disabled={isSickOrAbsent}
+            >
               Save
             </button>
           </div>
