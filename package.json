@@ -28,7 +28,7 @@
   "scripts": {
     "start:frontend": "react-scripts start src/frontend",
     "start:backend": "nodemon src/backend/server.js",
-    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start": " concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "react-scripts build src/frontend",
     "test": "react-scripts test src/frontend",
     "eject": "react-scripts eject src/frontend"
@@ -55,6 +55,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "concurrent": "^0.3.2",
     "concurrently": "^8.2.2",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "webpack-cli": "^5.1.4"
   }
 }
