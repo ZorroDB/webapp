@@ -1,15 +1,17 @@
-:root{
+:root {
   --primary-color: rgb(255, 255, 255);
-  --secondary-color: #6C68FF;
+  --secondary-color: #6c68ff;
   --accent-color: rgb(14, 14, 14);
 }
 
 body {
-  margin: 0;
+  margin: 0px;
+  padding: 0px;
   font-family: 'Baloo 2', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--primary-color);
+  overflow: hidden;
 }
 
 code {
