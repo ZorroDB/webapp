@@ -1,162 +1,163 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './styling/login.css';
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterScreen = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    teamCode: '',
+    fullName: "",
+    email: "",
+    password: "",
+    teamCode: "",
   });
-
-  const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const navigate = useNavigate(); // React Router's hook for navigation
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     try {
-      const registrationResponse = await axios.post(
-        'http://localhost:4000/register',
+      const response = await axios.post(
+        "http://localhost:4000/register",
         formData
       );
-
-      if (
-        registrationResponse.data.message === 'User registered successfully'
-      ) {
-        // Automatically log the user in after successful registration
-        try {
-          const loginResponse = await axios.post(
-            'http://localhost:4000/login',
-            {
-              email: formData.email,
-              password: formData.password,
-            }
-          );
-
-          if (loginResponse.data.token) {
-            // Save the token (optional: depending on your use case)
-            localStorage.setItem('authToken', loginResponse.data.token);
-
-            setIsSubmitted(true);
-            setErrorMessages({});
-            navigate('/dashboard'); // Redirect to a protected route
-          } else {
-            setErrorMessages({
-              name: 'login',
-              message: 'Login failed after registration.',
-            });
-          }
-        } catch (loginError) {
-          setErrorMessages({
-            name: 'login',
-            message:
-              loginError.response?.data?.message ||
-              'Login failed after registration.',
-          });
-        }
-      } else {
-        setErrorMessages({
-          name: 'submission',
-          message: registrationResponse.data.message,
-        });
-      }
-    } catch (registrationError) {
-      setErrorMessages({
-        name: 'submission',
-        message:
-          registrationError.response?.data?.message ||
-          'Registration failed. Please try again.',
-      });
+      localStorage.setItem("token", response.data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Registration failed. Please try again."
+      );
     }
   };
 
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
-    );
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
-    <div className="registration">
-      <div className="header">
-        <h1>Register your account</h1>
-        <span>Create an account to manage your work hours and more.</span>
-      </div>
-      <div className="register-form">
-        {isSubmitted ? (
-          <div>Registration and login successful! Redirecting...</div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div className="input-container">
-              <label>Full name</label>
+    <div className="min-h-screen bg-gradient-to-br from-primary/90 to-primary flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-8 transform transition-all">
+        {/* Header Section */}
+        <div className="text-center space-y-2 mb-12">
+          <h1 className="text-4xl font-bold text-gray-800">Create Account</h1>
+          <p className="text-xl text-gray-600">Join TimeTracker today</p>
+        </div>
+
+        {/* Form Section */}
+        <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Full Name Input */}
+            <div>
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Full Name
+              </label>
               <input
-                autoFocus
                 type="text"
+                id="fullName"
                 name="fullName"
                 value={formData.fullName}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-base"
                 placeholder="Enter your full name"
               />
-              {renderErrorMessage('fullName')}
             </div>
-            <div className="input-container">
-              <label>Email</label>
+
+            {/* Email Input */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email Address
+              </label>
               <input
                 type="email"
+                id="email"
                 name="email"
                 value={formData.email}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                placeholder="Ex. johndoe@gmail.com"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-base"
+                placeholder="Enter your email"
               />
-              {renderErrorMessage('email')}
             </div>
-            <div className="input-container">
-              <label>Password</label>
+
+            {/* Password Input */}
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
               <input
                 type="password"
+                id="password"
                 name="password"
                 value={formData.password}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                placeholder="Enter your password"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-base"
+                placeholder="Create a password"
               />
-              {renderErrorMessage('password')}
             </div>
-            <div className="input-container">
-              <label>Teamcode</label>
+
+            {/* Team Code Input */}
+            <div>
+              <label
+                htmlFor="teamCode"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Team Code
+              </label>
               <input
-                type="number"
+                type="text"
+                id="teamCode"
                 name="teamCode"
                 value={formData.teamCode}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                placeholder="Ex. 019393"
-                maxLength={6}
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-base"
+                placeholder="Enter your team code"
               />
-              {renderErrorMessage('teamCode')}
             </div>
-            <div className="button-container sign-up-btn">
-              <input type="submit" value="Sign Up" />
-            </div>
-            {renderErrorMessage('submission')}
-            {renderErrorMessage('login')}
-            <p id="sign-in">
-              Already have an account?
-              <Link to={'/login'} className="forgotPwdClass">
-                <span id="sign-in-link"> Sign In</span>
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <p className="text-red-500 text-sm text-center bg-red-50 py-2 rounded-lg">
+              {error}
+            </p>
+          )}
+
+          {/* Submit Button */}
+          <div className="max-w-md mx-auto">
+            <button
+              type="submit"
+              className="w-full bg-primary text-white py-4 px-6 rounded-xl font-medium hover:bg-primary/90 transform transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md text-lg"
+            >
+              Create Account
+            </button>
+
+            {/* Login Link */}
+            <p className="text-center text-base text-gray-600 mt-4">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-primary hover:text-primary/80 font-medium transition-colors"
+              >
+                Sign in
               </Link>
             </p>
-          </form>
-        )}
+          </div>
+        </form>
       </div>
     </div>
   );

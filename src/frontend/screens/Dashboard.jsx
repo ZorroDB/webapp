@@ -1,88 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import './styling/dashboard.css';
+import React, { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import "../styles/calendar.css";
 
 const Dashboard = () => {
   const [isSickOrAbsent, setIsSickOrAbsent] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [time, setTime] = useState({ hour: 0, minute: 0, second: 0 });
+  const [timerInterval, setTimerInterval] = useState(null);
 
   useEffect(() => {
-    const btn = document.getElementById('btn');
-    btn.addEventListener('click', toggleTimer, false);
-    return () => {
-      btn.removeEventListener('click', toggleTimer);
+    const padding = (numPad) => {
+      return numPad < 10 ? "0" + numPad : numPad.toString();
     };
-  }, []);
 
-  let timerRunning = false;
-  let timerInterval;
-  let hour = 0;
-  let minute = 0;
-  let second = 0;
+    const startTimer = () => {
+      setTimerRunning(true);
+      console.log("Timer started");
+      setTimerInterval(
+        setInterval(() => {
+          setTime({ ...time, second: time.second + 1 });
+          if (time.second === 60) {
+            setTime({ ...time, second: 0, minute: time.minute + 1 });
+          }
+          if (time.minute === 60) {
+            setTime({ ...time, minute: 0, hour: time.hour + 1 });
+          }
+          const padHour = padding(time.hour);
+          const padMinute = padding(time.minute);
+          const padSecond = padding(time.second);
+          document.getElementById("time_hour").innerHTML = padHour;
+          document.getElementById("time_minutes").innerHTML = padMinute;
+          document.getElementById("time_seconds").innerHTML = padSecond;
+        }, 1000)
+      );
+    };
 
-  const toggleTimer = () => {
-    if (!timerRunning) {
-      startTimer();
-    } else {
-      stopTimer();
-    }
-  };
+    const stopTimer = () => {
+      console.log("Timer stopped");
+      clearInterval(timerInterval);
+      setTimerRunning(false);
 
-  const stopTimer = () => {
-    console.log('Timer stopped');
-    clearInterval(timerInterval);
-    timerRunning = false;
-
-    if (minute % 15 !== 0) {
-      let remainder = minute % 15;
-      let increment = 15 - remainder;
-      minute += increment;
-      if (minute >= 60) {
-        minute = 0;
-        hour++;
+      if (time.minute % 15 !== 0) {
+        let remainder = time.minute % 15;
+        let increment = 15 - remainder;
+        setTime({ ...time, minute: time.minute + increment });
+        if (time.minute >= 60) {
+          setTime({ ...time, minute: 0, hour: time.hour + 1 });
+        }
       }
-    }
 
-    const padHour = padding(hour);
-    const padMinute = padding(minute);
-    const padSecond = padding(second);
-    document.getElementById('time_hour').innerHTML = padHour;
-    document.getElementById('time_minutes').innerHTML = padMinute;
-    document.getElementById('time_seconds').innerHTML = padSecond;
-  };
+      const padHour = padding(time.hour);
+      const padMinute = padding(time.minute);
+      const padSecond = padding(time.second);
+      document.getElementById("time_hour").innerHTML = padHour;
+      document.getElementById("time_minutes").innerHTML = padMinute;
+      document.getElementById("time_seconds").innerHTML = padSecond;
+    };
 
-  const padding = (numPad) => {
-    return numPad < 10 ? '0' + numPad : numPad.toString();
-  };
-
-  const startTimer = () => {
-    timerRunning = true;
-    console.log('Timer started');
-    timerInterval = setInterval(() => {
-      second++;
-      if (second === 60) {
-        second = 0;
-        minute++;
+    const toggleTimer = () => {
+      if (!timerRunning) {
+        startTimer();
+      } else {
+        stopTimer();
       }
-      if (minute === 60) {
-        minute = 0;
-        hour++;
-      }
-      const padHour = padding(hour);
-      const padMinute = padding(minute);
-      const padSecond = padding(second);
-      document.getElementById('time_hour').innerHTML = padHour;
-      document.getElementById('time_minutes').innerHTML = padMinute;
-      document.getElementById('time_seconds').innerHTML = padSecond;
-    }, 1000);
-  };
+    };
+
+    const btn = document.getElementById("btn");
+    btn.addEventListener("click", toggleTimer, false);
+    return () => {
+      btn.removeEventListener("click", toggleTimer);
+    };
+  }, [timerRunning, time, timerInterval]);
 
   const logout = () => {
-    localStorage.removeItem('token');
-    const token = localStorage.getItem('token');
+    localStorage.removeItem("token");
+    const token = localStorage.getItem("token");
     if (!token) window.location.reload();
-    return 'You have been logged out.';
+    return "You have been logged out.";
   };
 
   const handleSickOrAbsentChange = (event) => {
@@ -90,82 +86,124 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container">
-      <div className="left-half">
-        <div>
-          <h1>Dashboard</h1>
-          <h2>Welcome, name here</h2>
-        </div>
-        <div id="calendar">
-          <Calendar onChange={setDate} value={date} />
-        </div>
-      </div>
-      <div className="right-half">
-        <button className="logout" onClick={logout}>
-          Log Out
-        </button>
-        <div className="container-right">
-          <div className="sick">
-            <div className="top-section">
-              <h2>Sick or absent:</h2>
-              <input
-                id="input_sick"
-                type="checkbox"
-                onChange={handleSickOrAbsentChange}
-                required
-              />
-            </div>
-            <p id="subText">Sick or absent? Check this box.</p>
+    <div className="min-h-screen bg-gradient-to-br from-primary/90 to-primary/60 p-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Left Section */}
+        <div className="md:col-span-1 space-y-6">
+          <div className="bg-white rounded-2xl shadow-md p-6">
+            <h1 className="text-3xl font-bold text-gray-800">
+              Time Registration
+            </h1>
+            <h2 className="text-xl text-gray-600 mt-2">Welcome, name here</h2>
           </div>
-          <div className="break_time">
-            <div className="top-section">
-              <h2>Time of break:</h2>
-              <input
-                id="input_break"
-                type="number"
-                required
-                placeholder="1:00"
-                disabled={isSickOrAbsent}
-              />
-            </div>
-            <p id="subText">Duration of break time.</p>
+          <div className="bg-white rounded-2xl shadow-md p-6">
+            <Calendar
+              onChange={setDate}
+              value={date}
+              className="w-full rounded-xl"
+            />
           </div>
+        </div>
+
+        {/* Right Section */}
+        <div className="md:col-span-2 space-y-6">
           <button
-            className="timer"
-            id="btn"
-            type="button"
-            disabled={isSickOrAbsent}
+            onClick={logout}
+            className="ml-auto block px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
           >
-            <div className="time-measure">
-              <span id="time_hour">00</span>:<span id="time_minutes">00</span>:
-              <span id="time_seconds">00</span>
-            </div>
+            Log Out
           </button>
-          <p id="btn-subText">
-            *Press the clock in button to start the timer and press clock out to
-            stop the timer.*
-          </p>
-          <div className="handtekening">
-            <div className="top-section">
-              <h2>Signature:</h2>
-              <input
-                id="input_handtekening"
-                type="checkbox"
-                required
-                disabled
-              />
+
+          <div className="space-y-6">
+            {/* Sick/Absent Section */}
+            <div className="bg-white rounded-2xl shadow-md p-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Sick or absent
+                </h2>
+                <input
+                  id="input_sick"
+                  type="checkbox"
+                  onChange={handleSickOrAbsentChange}
+                  required
+                  className="h-6 w-6 rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+              <p className="text-gray-600 mt-2 text-sm">
+                Check this box if you are sick or absent
+              </p>
             </div>
-            <p id="subText">
-              If clock-in is accepted, the manager will check this box.
-            </p>
-          </div>
-          <div className="save_button">
+
+            {/* Break Time Section */}
+            <div className="bg-white rounded-2xl shadow-md p-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Break Duration
+                </h2>
+                <input
+                  id="input_break"
+                  type="number"
+                  required
+                  placeholder="Minutes"
+                  disabled={isSickOrAbsent}
+                  className="w-24 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <p className="text-gray-600 mt-2 text-sm">
+                Enter your break duration in minutes
+              </p>
+            </div>
+
+            {/* Timer Section */}
             <button
-              className="btn_save"
+              className={`w-full bg-white rounded-2xl shadow-md p-8 text-4xl font-mono ${
+                isSickOrAbsent
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-50"
+              }`}
+              id="btn"
+              type="button"
+              disabled={isSickOrAbsent}
+            >
+              <div className="text-center">
+                <span id="time_hour">00</span>:<span id="time_minutes">00</span>
+                :<span id="time_seconds">00</span>
+              </div>
+              <p className="text-sm text-gray-600 mt-4">
+                Click to start/stop timer
+              </p>
+            </button>
+
+            {/* Manager Approval Section */}
+            <div className="bg-white rounded-2xl shadow-md p-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Manager Approval
+                </h2>
+                <input
+                  id="input_handtekening"
+                  type="checkbox"
+                  required
+                  disabled
+                  className="h-6 w-6 rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </div>
+              <p className="text-gray-600 mt-2 text-sm">
+                Requires manager approval
+              </p>
+            </div>
+
+            {/* Save Button */}
+            <button
+              className={`w-full py-4 rounded-xl text-white font-semibold text-lg ${
+                isSickOrAbsent
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary/90 transition-colors"
+              }`}
               id="btn_save"
               disabled={isSickOrAbsent}
             >
-              Save
+              Save Entry
             </button>
           </div>
         </div>

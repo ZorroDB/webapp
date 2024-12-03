@@ -1,20 +1,9 @@
-:root {
-  --primary-color: rgb(255, 255, 255);
-  --secondary-color: #6c68ff;
-  --accent-color: rgb(14, 14, 14);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-  margin: 0px;
-  padding: 0px;
-  font-family: 'Baloo 2', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--primary-color);
-  overflow: hidden;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  body {
+    @apply bg-secondary text-gray-800 font-sans;
+  }
 }
